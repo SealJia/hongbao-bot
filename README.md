@@ -6,8 +6,6 @@
 ## 运行
 修改`app.js`文件中的微信号为你的微信号
 ```
-npm install
-
 node app
 ```
 

@@ -2,8 +2,7 @@ const {Wechaty, Room, Contact} = require('wechaty')
 const { getUrl, isIncludeUrl} = require("./utils")
 const axios = require("axios")
 
-const bot = Wechaty.instance({profile: 'dj940212'}) //微信号
-const self_name = "dj940212"  //微信号
+const bot = Wechaty.instance({profile: 'Promise'}) //‘Promise’为微信名， 避免每次启动程序重新扫码
 let urls = []   //红包链接
 
 bot
@@ -18,10 +17,9 @@ bot
 
 .on('message', async m => {
     /**
-     * [发送到文件助手或者发送给机器人]
+     * [发送到文件助手或者发送给微信号]
      */
-    console.log(m.to().name())
-    if (m.to().name() !== "File Transfer" && m.to().name() !== self_name) { return }
+    if (m.to().name() !== "File Transfer" && !m.to().self()) { return }
 
     // 文件助手
     const filehelper = await Contact.load('filehelper')
@@ -31,11 +29,10 @@ bot
     if( isIncludeUrl(m.content()) ){
         const url = getUrl(m.content())
         urls.push(url)
-        console.log("红包数组：", urls)
-
+        console.log("剩余红包数", urls.length)
 
         //发送到机器人
-        if (m.to().name() === self_name) {
+        if (m.to().self()) {
             await m.from().say("填写手机号码领取红包")
         }
 
@@ -50,7 +47,19 @@ bot
     if (/^[1][3,4,5,7,8][0-9]{9}$/i.test(m.content())) {
         const mobile = m.content()
 
-        if (!urls.length) return
+        if (!urls.length) {
+            //发送到微信
+            if (m.to().self()) {
+                await m.from().say("没有红包了")
+            }
+
+            //发送到文件助手
+            if (m.to().name() === "File Transfer") {
+                await filehelper.say("没有红包了")
+            }
+
+            return
+        }
 
         console.log(urls[urls.length - 1], mobile)
 
@@ -62,8 +71,8 @@ bot
             console.log(e)
         }
 
-        //发送到机器人
-        if (m.to().name() === self_name) {
+        //发送到微信
+        if (m.to().self()) {
             await m.from().say(res.data.message)
         }
 
