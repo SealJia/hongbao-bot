@@ -2,7 +2,7 @@
 
 > 用微信机器人抢美团和饿了吗外卖最大红包
 
-![](http://ovs5x36k4.bkt.clouddn.com/QQ20180227-0.png)
+![](http://ovs5x36k4.bkt.clouddn.com/QQ20180227-0.png?imageView2/2/w/400)
 ## 运行
 修改`app.js`文件中的微信号为你的微信号
 ```
