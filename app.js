@@ -7,6 +7,7 @@ let urls = []   //红包链接
 
 bot
 .on('scan', (url, code)=>{
+    console.log(url)
     let loginUrl = url.replace('qrcode', 'l')
     require('qrcode-terminal').generate(loginUrl)
 })
@@ -82,5 +83,4 @@ bot
         }
     }
 })
-
-.init()
+.start()
