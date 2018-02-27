@@ -2,8 +2,8 @@ const {Wechaty, Room, Contact} = require('wechaty')
 const { getUrl, isIncludeUrl} = require("./utils")
 const axios = require("axios")
 
-const bot = Wechaty.instance({profile: 'dj940212'})
-const self_name = "dj940212"  //当前用户名
+const bot = Wechaty.instance({profile: 'dj940212'}) //微信号
+const self_name = "dj940212"  //微信号
 let urls = []   //红包链接
 
 bot
@@ -20,6 +20,7 @@ bot
     /**
      * [发送到文件助手或者发送给机器人]
      */
+    console.log(m.to().name())
     if (m.to().name() !== "File Transfer" && m.to().name() !== self_name) { return }
 
     // 文件助手
