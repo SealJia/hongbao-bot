@@ -96,13 +96,13 @@ bot
         //发送到微信
         if (m.to().self()) {
             await m.from().say(res.data.message)
-            await m.from().say("如果帮助到你,发个红包吧")
+            await m.from().say("如果觉得满意,发个红包支持一下")
         }
 
         //发送到文件助手
         if (m.to().name() === "File Transfer") {
             await filehelper.say(res.data.message)
-            await m.from().say("如果帮助到你,发个红包吧")
+            await m.from().say("如果觉得满意,发个红包支持一下")
         }
     }
 })
