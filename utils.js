@@ -41,7 +41,36 @@ function getUrl(content) {
     }
 }
 
+/**
+ * [检验用户是否发过红包]
+ */
+function isSendUrl(userInfos, name) {
+    if (userInfos.length) {
+        return false
+    }
+    
+    for (let i = 0; i < userInfos.length; i++) {
+        if (userInfos[i].name === name) {
+            return true
+        }
+    }
+    return false
+}
+
+/**
+ * 获取用户自己发的红包
+ */
+function getUserOwnInfo(userInfos, name) {
+    for (let i = 0; i < userInfos.length; i++) {
+        if (userInfos[i].name === name) {
+            return userInfos[i]
+        }
+    }
+}
+
 module.exports = {
   isIncludeUrl,
-  getUrl
+  getUrl,
+  getUserOwnInfo,
+  isSendUrl
 }
