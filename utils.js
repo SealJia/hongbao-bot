@@ -6,7 +6,6 @@ function isIncludeUrl(content) {
     {
         return true
     }
-
     return false
 }
 
@@ -24,7 +23,6 @@ function getUrl(content) {
     }
 
     // 美团
-    // https://activity.waimai.meituan.com/coupon/sharechannel/B2EA8E1ABA8B47EA82DB475BA17B517D?urlKey=6AB65743D62E487491E23EB883FFD008
     if (/https:\/\/activity.waimai.meituan.com/i.test(content)) {
         const first = content.search(/https:\/\/activity.waimai.meituan.com/i);
         const last = content.search(/urlKey=/i) + 39
