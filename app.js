@@ -15,11 +15,32 @@ bot
 .on('login', user=>{
     console.log(`${user} login`)
 })
+.on('friend', async (contact, request) => {
+  const fileHelper = Contact.load('filehelper')
 
+  try {
+    if (request) {
+      /**
+       * 1. New Friend Request
+       */
+      // if (request.hello === '红包') {
+        await request.accept()
+        console.log(contact.name())
+        // await contact.say("直接转发红包到此微信号,按提示填写手机号领取最大红包\n 项目地址：https://github.com/dj940212/hongbao-bot")
+      // }
+    } else {
+      await contact.say("转发外卖红包到此微信号,提示后发送手机号")
+    }
+  } catch (e) {
+    console.log(e.message)
+  }
+
+})
 .on('message', async m => {
     /**
      * [发送到文件助手或者发送给微信号]
      */
+    if (m.room()) { return }
     if (m.to().name() !== "File Transfer" && !m.to().self()) { return }
 
     // 文件助手
@@ -34,12 +55,12 @@ bot
 
         //发送到机器人
         if (m.to().self()) {
-            await m.from().say("填写手机号码领取红包")
+            await m.from().say("输入框发送手机号码领取")
         }
 
         //发送到文件助手
         if (m.to().name() === "File Transfer") {
-            await filehelper.say("填写手机号码领取红包")
+            await filehelper.say("输入框发送手机号码领取")
         }
 
     }
@@ -51,12 +72,12 @@ bot
         if (!urls.length) {
             //发送到微信
             if (m.to().self()) {
-                await m.from().say("没有红包了")
+                await m.from().say("需要转发外卖红包")
             }
 
             //发送到文件助手
             if (m.to().name() === "File Transfer") {
-                await filehelper.say("没有红包了")
+                await filehelper.say("需要转发外卖红包")
             }
 
             return
@@ -75,11 +96,13 @@ bot
         //发送到微信
         if (m.to().self()) {
             await m.from().say(res.data.message)
+            await m.from().say("如果帮助到你,发个红包吧^_^")
         }
 
         //发送到文件助手
         if (m.to().name() === "File Transfer") {
             await filehelper.say(res.data.message)
+            await m.from().say("如果帮助到你,发个红包吧^_^")
         }
     }
 })
