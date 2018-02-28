@@ -45,10 +45,10 @@ function getUrl(content) {
  * [检验用户是否发过红包]
  */
 function isSendUrl(userInfos, name) {
-    if (userInfos.length) {
+    if (!userInfos.length) {
         return false
     }
-    
+
     for (let i = 0; i < userInfos.length; i++) {
         if (userInfos[i].name === name) {
             return true
