@@ -78,7 +78,11 @@ bot
                 console.log(delInfo[0].name+ " 的红包领取完毕")
 
             } catch (e) {
-                console.log(e)
+                console.log("出错",e.message)
+                //发送到微信
+                if (m.to().self()) {
+                    await m.from().say("请求出错，请重试")
+                }
             }
         }else {
             //发送到微信
@@ -96,13 +100,13 @@ bot
         //发送到微信
         if (m.to().self()) {
             await m.from().say(res.data.message)
-            await m.from().say("如果觉得满意,发个红包支持一下")
+            await m.from().say("如果觉得满意,发个红包支持一下\n出现服务异常，关注一下朋友圈")
         }
 
         //发送到文件助手
         if (m.to().name() === "File Transfer") {
             await filehelper.say(res.data.message)
-            await m.from().say("如果觉得满意,发个红包支持一下")
+            await m.from().say("如果觉得满意,发个红包支持一下\n出现服务异常，关注一下朋友圈")
         }
     }
 })
