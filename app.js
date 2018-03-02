@@ -20,7 +20,7 @@ bot
   try {
     if (request) {
        //New Friend Request
-       await request.accept()
+       // await request.accept()
        console.log("好友申请: ",contact.name())
     } else {
       await contact.say("转发外卖红包到此微信号,提示后发送手机号")
@@ -70,6 +70,11 @@ bot
         if (m.to().name() === "File Transfer") {
             await filehelper.say("输入框发送手机号码领取")
         }
+    }else if( isIncludeUrl(m.content()) === -1 ) {
+        //发送到机器人
+        if (m.to().self()) {
+            await m.from().say("暂不支持这种红包")
+        }
     }
 
     /**
@@ -113,13 +118,13 @@ bot
         //发送到微信
         if (m.to().self()) {
             await m.from().say(res.data.message)
-            await m.from().say("如果觉得满意,发个红包支持一下\n出现服务异常，关注一下朋友圈")
+            await m.from().say("如果出现服务异常，关注一下朋友圈")
         }
 
         //发送到文件助手
         if (m.to().name() === "File Transfer") {
             await filehelper.say(res.data.message)
-            await m.from().say("如果觉得满意,发个红包支持一下\n出现服务异常，关注一下朋友圈")
+            await m.from().say("如果出现服务异常，关注一下朋友圈")
         }
     }
 })

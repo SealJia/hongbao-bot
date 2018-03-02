@@ -2,10 +2,16 @@
  * [判断是否含有红包链接]
  */
 function isIncludeUrl(content) {
+
     if (/https:\/\/h5.ele.me\/hongbao/i.test(content) || /https:\/\/activity.waimai.meituan.com/i.test(content) || /http:\/\/url.cn/i.test(content))
     {
         return true
     }
+    // 不支持链接
+    if (/http/i.test(content)) {
+        return -1
+    }
+
     return false
 }
 
