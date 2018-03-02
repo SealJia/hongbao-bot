@@ -41,6 +41,15 @@ function getUrl(content) {
     }
 }
 
+function isMeituan(content) {
+    // 美团
+    if (/https:\/\/activity.waimai.meituan.com/i.test(content)) {
+        return true
+    }
+
+    return false
+}
+
 /**
  * [检验用户是否发过红包]
  */
@@ -72,5 +81,6 @@ module.exports = {
   isIncludeUrl,
   getUrl,
   getUserOwnInfo,
-  isSendUrl
+  isSendUrl,
+  isMeituan
 }

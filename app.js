@@ -1,5 +1,5 @@
 const {Wechaty, Room, Contact} = require('wechaty')
-const { getUrl, isIncludeUrl, isSendUrl, getUserOwnInfo} = require("./utils")
+const { getUrl, isIncludeUrl, isSendUrl, getUserOwnInfo, isMeituan} = require("./utils")
 const axios = require("axios")
 
 const bot = Wechaty.instance({profile: 'Promise'}) //‘Promise’为微信名， 避免每次启动程序重新扫码
@@ -42,6 +42,20 @@ bot
     /**
      * [是否为红包链接]
      */
+    //美团维护中
+    if (isMeituan(m.content())) {
+        //发送到机器人
+        if (m.to().self()) {
+            await m.from().say("美团红包维护中，暂时请使用饿了么")
+        }
+        //发送到文件助手
+        if (m.to().name() === "File Transfer") {
+            await filehelper.say("美团红包维护中，暂时请使用饿了么")
+        }
+
+        return
+    }
+
     if( isIncludeUrl(m.content()) ){
         const url = getUrl(m.content())
 
@@ -56,7 +70,6 @@ bot
         if (m.to().name() === "File Transfer") {
             await filehelper.say("输入框发送手机号码领取")
         }
-
     }
 
     /**
