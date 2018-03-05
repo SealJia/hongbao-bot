@@ -23,7 +23,7 @@ bot
        await request.accept()
        console.log("好友申请: ",contact.name())
     } else {
-      await contact.say("转发外卖红包到此微信号,提示后发送手机号")
+      await contact.say("转发外卖红包到此微信号,提示后发送手机号领取最大红包")
     }
   } catch (e) {
     console.log(e.message)
@@ -50,7 +50,7 @@ bot
         }
         //发送到文件助手
         if (m.to().name() === "File Transfer") {
-            await filehelper.say("美团红包维护中，暂时请使用饿了么")
+            await filehelper.say("美团红包暂时无法使用，饿了么或成最大赢家，请使用饿了么")
         }
 
         return
@@ -91,16 +91,18 @@ bot
                 // 检查用户是否发过红包
                 console.log(userOwnInfo.name + " 正在领取红包：" + mobile, userOwnInfo.url)
 
-                res = await axios.post('http://hongbao.lte.pw:3007/hongbao', {url: userOwnInfo.url, mobile})
+                if (m.to().self()) {
+                    await m.from().say("正在破解中...")
+                }
+
+                res = await axios.post('https://hongbao.xxooweb.com/hongbao', {url: userOwnInfo.url, mobile})
                 const delInfo = userInfos.splice(userInfos.indexOf(userOwnInfo), 1)
                 console.log(delInfo[0].name+ " 的红包领取完毕")
 
             } catch (e) {
                 console.log("出错",e.message)
                 //发送到微信
-                if (m.to().self()) {
-                    await m.from().say("请求出错，请重试")
-                }
+                await m.from().say("请求出错，请重试")
             }
         }else {
             //发送到微信
