@@ -5,12 +5,32 @@ function isIncludeUrl(content) {
 
     if (/https:\/\/h5.ele.me\/hongbao/i.test(content) ||
         /https:\/\/activity.waimai.meituan.com/i.test(content) ||
-        /http:\/\/url.cn/i.test(content)) ||
-        /https:\/\/h5.ele.me\/yearawards/i.test(content){
+        /http:\/\/url.cn/i.test(content) ||
+        /https:\/\/h5.ele.me\/yearawards/i.test(content)){
         return true
     }
 
     return false
+}
+
+/**
+ * [链接类型]
+ */
+function getUrlType(content) {
+    if (/https:\/\/h5.ele.me\/hongbao/i.test(content)){
+        return 1
+    }
+    if (/https:\/\/activity.waimai.meituan.com/i.test(content)) {
+        return 2
+    }
+    if (/http:\/\/url.cn/i.test(content)) {
+        return 3
+    }
+    if (/https:\/\/h5.ele.me\/yearawards/i.test(content)) {
+        return 4
+    }
+
+    return 0
 }
 
 /**
@@ -43,11 +63,35 @@ function getUrl(content) {
 
         return url
     }
+
+    //饿了么年终奖
+    if (/https:\/\/h5.ele.me\/yearawards/i.test(content)) {
+        const first = content.search(/https:\/\/h5.ele.me\/yearawards/i);
+        let last = 100
+        if (/type=weixin/i.test(content)) {
+            last = content.search(/type=weixin/i) + 11
+        }
+        if (/type=qq/i.test(content)) {
+            last = content.search(/type=qq/i) + 7
+        }
+        const url = content.slice(first, last).replace(/amp;/g,"")
+
+        return url
+    }
 }
 
 function isMeituan(content) {
     // 美团
     if (/https:\/\/activity.waimai.meituan.com/i.test(content)) {
+        return true
+    }
+
+    return false
+}
+
+function isElemeYearawards(content) {
+    // 饿了吗年终奖
+    if (/https:\/\/h5.ele.me\/yearawards/i.test(content)) {
         return true
     }
 
@@ -86,5 +130,7 @@ module.exports = {
   getUrl,
   getUserOwnInfo,
   isSendUrl,
-  isMeituan
+  isMeituan,
+  isElemeYearawards,
+  getUrlType
 }

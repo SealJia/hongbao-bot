@@ -1,5 +1,5 @@
 const {Wechaty, Room, Contact} = require('wechaty')
-const { getUrl, isIncludeUrl, isSendUrl, getUserOwnInfo, isMeituan} = require("./utils")
+const { getUrl, isIncludeUrl, isSendUrl, getUserOwnInfo, isMeituan, getUrlType} = require("./utils")
 const axios = require("axios")
 
 const bot = Wechaty.instance({profile: 'Promise'}) //‘Promise’为微信名， 避免每次启动程序重新扫码
@@ -39,41 +39,41 @@ bot
 
     // 文件助手
     const filehelper = await Contact.load('filehelper')
-    /**
-     * [是否为红包链接]
-     */
+    //红包类型
+    const type = getUrlType(m.content())
     //美团维护中
-    if (isMeituan(m.content())) {
+    if (type === 2) {
         //发送到机器人
         if (m.to().self()) {
-            await m.from().say("美团红包暂时无法使用，饿了么或成最大赢家，请使用饿了么")
+            await m.from().say("美团红包暂时无法使用，饿了么或成最大赢家")
         }
-        //发送到文件助手
-        if (m.to().name() === "File Transfer") {
-            await filehelper.say("美团红包暂时无法使用，饿了么或成最大赢家，请使用饿了么")
-        }
-
         return
     }
 
-    if( isIncludeUrl(m.content()) ){
+    if( type > 0){
         const url = getUrl(m.content())
 
         userInfos.push({name: m.from().name(), url: url})
         console.log(m.from().name()+" 转发了红包 ","红包总数："+userInfos.length)
 
-        //发送到机器人
-        if (m.to().self()) {
-            await m.from().say("输入框发送手机号码领取")
-        }
-        //发送到文件助手
-        if (m.to().name() === "File Transfer") {
-            await filehelper.say("输入框发送手机号码领取")
-        }
-    }else if( isIncludeUrl(m.content()) === -1 ) {
-        //发送到机器人
-        if (m.to().self()) {
-            await m.from().say("暂不支持这种红包")
+        if (type !== 4) {
+            //发送到机器人
+            if (m.to().self()) {
+                await m.from().say("发送手机号码领取最大红包")
+            }
+            //发送到文件助手
+            if (m.to().name() === "File Transfer") {
+                await filehelper.say("发送手机号码领取最大红包")
+            }
+        }else {
+            //发送到机器人
+            if (m.to().self()) {
+                await m.from().say("发送手机号码,帮你抢年终奖")
+            }
+            //发送到文件助手
+            if (m.to().name() === "File Transfer") {
+                await filehelper.say("发送手机号码,帮你抢年终奖")
+            }
         }
     }
 
@@ -92,7 +92,7 @@ bot
                 console.log(userOwnInfo.name + " 正在领取红包：" + mobile, userOwnInfo.url)
 
                 if (m.to().self()) {
-                    await m.from().say("正在破解中...")
+                    await m.from().say("正在为您破解...")
                 }
 
                 res = await axios.post('https://hongbao.xxooweb.com/hongbao', {url: userOwnInfo.url, mobile})
