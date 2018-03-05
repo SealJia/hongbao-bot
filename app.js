@@ -46,7 +46,7 @@ bot
     if (isMeituan(m.content())) {
         //发送到机器人
         if (m.to().self()) {
-            await m.from().say("美团红包维护中，暂时请使用饿了么")
+            await m.from().say("美团红包暂时无法使用，饿了么或成最大赢家，请使用饿了么")
         }
         //发送到文件助手
         if (m.to().name() === "File Transfer") {
@@ -118,13 +118,11 @@ bot
         //发送到微信
         if (m.to().self()) {
             await m.from().say(res.data.message)
-            await m.from().say("如果出现服务异常，关注一下朋友圈")
         }
 
         //发送到文件助手
         if (m.to().name() === "File Transfer") {
             await filehelper.say(res.data.message)
-            await m.from().say("如果出现服务异常，关注一下朋友圈")
         }
     }
 })
