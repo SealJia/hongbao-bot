@@ -20,7 +20,7 @@ bot
   try {
     if (request) {
        //New Friend Request
-       // await request.accept()
+       await request.accept()
        console.log("好友申请: ",contact.name())
     } else {
       await contact.say("转发外卖红包到此微信号,提示后发送手机号")
