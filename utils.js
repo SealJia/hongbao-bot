@@ -74,7 +74,7 @@ function getUrl(content) {
         if (/type=qq/i.test(content)) {
             last = content.search(/type=qq/i) + 7
         }
-        const url = content.slice(first, last).replace(/amp;/g,"")
+        const url = content.slice(first, last)
 
         return url
     }
