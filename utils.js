@@ -7,10 +7,6 @@ function isIncludeUrl(content) {
     {
         return true
     }
-    // 不支持链接
-    if (/http/i.test(content)) {
-        return -1
-    }
 
     return false
 }

@@ -91,7 +91,7 @@ bot
                 // 检查用户是否发过红包
                 console.log(userOwnInfo.name + " 正在领取红包：" + mobile, userOwnInfo.url)
 
-                res = await axios.post('https://hongbao.xxooweb.com/hongbao', {url: userOwnInfo.url, mobile})
+                res = await axios.post('http://hongbao.lte.pw:3007/hongbao', {url: userOwnInfo.url, mobile})
                 const delInfo = userInfos.splice(userInfos.indexOf(userOwnInfo), 1)
                 console.log(delInfo[0].name+ " 的红包领取完毕")
 
