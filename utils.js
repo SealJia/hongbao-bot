@@ -3,8 +3,10 @@
  */
 function isIncludeUrl(content) {
 
-    if (/https:\/\/h5.ele.me\/hongbao/i.test(content) || /https:\/\/activity.waimai.meituan.com/i.test(content) || /http:\/\/url.cn/i.test(content))
-    {
+    if (/https:\/\/h5.ele.me\/hongbao/i.test(content) ||
+        /https:\/\/activity.waimai.meituan.com/i.test(content) ||
+        /http:\/\/url.cn/i.test(content)) ||
+        /https:\/\/h5.ele.me\/yearawards/i.test(content){
         return true
     }
 
